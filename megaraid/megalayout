@@ -1,0 +1,11 @@
+megalayout(){
+	echo "8 Megaraid boxes currently in production"
+	echo nangas09    0
+	echo nangas10    0
+	echo naasc-oss-9 0
+	echo lard-oss-1  0,1
+	echo lard-oss-2  0,1
+	echo nangas08    0,1,2
+	echo naasc-oss-8 0,1,2 
+	echo cv-oss-16   0,1,2
+}

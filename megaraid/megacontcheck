@@ -1,0 +1,5 @@
+# shows the status of all controllers on the box
+# Usage: megacontcheck <hostname>
+megacontcheck(){
+	ssh -q root@${1} storcli show | sed -n '5p' | rev | cut -c1
+}

@@ -1,0 +1,4 @@
+byesc (){
+        screen -S $(screen -ls | grep '[0-9].[0-9]' | awk 'NR=="'$1'"{print $1}') -X quit
+        scls
+}

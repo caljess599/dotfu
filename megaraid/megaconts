@@ -1,3 +1,5 @@
+# prints controllers from HARD-CODED list of hosts
+# takes no arguments
 megaconts(){
 	megaraidhosts="lard-oss-1 lard-oss-2 nangas08 nangas09 nangas10 naasc-oss-8 naasc-oss-9 cv-oss-16"
 	for i in $megaraidhosts; do 

@@ -1,0 +1,9 @@
+# describes specific controller
+# usage: fulldescribe <hostname> <controller number>
+megadescribe(){
+	echo "****************************************************************"
+	echo "****** Running MEGADESCRIBE ON $1 CONTROLLER $2"
+	echo "****************************************************************"
+	echo
+	ssh -q root@$1 "storcli show | sed -n '5,7p'; storcli /c$2 show all | sed -n '7,11p;21,25p;32,33p;53,59p;203,205p;210,211p;227,230p;234,247p;250,251p;254p;259,262p;353,361p'"
+}

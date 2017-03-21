@@ -1,0 +1,14 @@
+# megadescribes all a machines controllers
+# Usage: megadump <hostname>
+# leverages megacontcheck and megadescribe
+megadump(){
+	# all will have at least one controller 
+	megadescribe $1 0
+	conts=$(megacontcheck $1)
+	if [ "$conts" == '2' ]; then 
+		megadescribe $1 1
+	elif [ "$conts" == '3' ]; then 
+		megadescribe $1 1
+		megadescribe $1 2
+	fi
+}

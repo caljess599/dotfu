@@ -1,0 +1,12 @@
+# allows you to easily hunt for config inconsitencies across all boxes/controllers
+# by greping for a specific string in the megadump output
+# Usage: megadiffs <grep pattern>
+megadiffs(){
+	grepme="$*"
+	echo "$grepme"
+	for i in $megaraidhosts; do
+		echo $i
+		megadump $i | grep -i "$grepme"
+	done
+}
+

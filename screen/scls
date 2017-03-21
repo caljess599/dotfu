@@ -1,0 +1,1 @@
+alias scls="screen -ls | nl -bp\("
