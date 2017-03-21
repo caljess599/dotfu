@@ -1,0 +1,8 @@
+megaconts(){
+	megaraidhosts="lard-oss-1 lard-oss-2 nangas08 nangas09 nangas10 naasc-oss-8 naasc-oss-9 cv-oss-16"
+	for i in $megaraidhosts; do 
+		printf "%s: " $i    
+		ssh -q root@${i} "storcli show | sed -n '5p'"
+	done
+}
+

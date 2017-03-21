@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#this one-liner will source all files specified directory(ies)
+
+# add_naasc(){ for f in ~/.bash_naasc/*; do source $f; done }
+
+repo=/users/jotey/dotfu
+dirs=$*
+for i in $dirs; do
+	echo sourcing files in ${i} ...
+	for j in $repo/$i/*; do
+		echo sourcing $j
+		source $j
+	done
+done
+
