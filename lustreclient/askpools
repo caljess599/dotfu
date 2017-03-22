@@ -1,0 +1,12 @@
+# run notinpool remotely
+
+# for naasc | usage: askna OST0040
+askna(){
+	ssh asimov "notinpool | grep $1"
+}
+
+#for cv | usage: askcv OST0036
+askcv(){
+	ssh sauron "notinpool | grep $1"
+}
+

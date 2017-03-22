@@ -1,0 +1,22 @@
+# evaluate whether naasc lustre fs is balanced according to 17% metric
+ncaskbal(){
+	fish=$(fishlist 0)
+	max=$(echo "$fish" | awk 'NR==1 {print $4}')
+	maxmin=$(echo "$fish" | awk 'NR==1 {print $4} END {print $4}' | awk 'NR>1{print p-$1} {p=$1}')
+	echo max diff in empty space = $(calc $maxmin \* .000000001) TB
+	maxtrr=$(calc .17 \* $max)
+	echo max free x .17 = $(calc ${maxtrr%.*} \* .000000001) TB
+	if [ $maxmin -le ${maxtrr%.*} ]; then echo lustre is balanced; else echo lustre is not balanced; fi
+}
+
+# evaluate whether cv lustre fs is balanced according to 17% metric
+cvaskbal(){
+	fish=$(fishlistcv 0)
+	max=$(echo "$fish" | awk 'NR==1 {print $4}')
+	maxmin=$(echo "$fish" | awk 'NR==1 {print $4} END {print $4}' | awk 'NR>1{print p-$1} {p=$1}')
+	echo max diff in empty space = $(calc $maxmin \* .000000001) TB
+	maxtrr=$(calc .17 \* $max)
+	echo max free x .17 = $(calc ${maxtrr%.*} \* .000000001) TB
+	if [ $maxmin -le ${maxtrr%.*} ]; then echo lustre is balanced; else echo lustre is not balanced; fi
+}
+

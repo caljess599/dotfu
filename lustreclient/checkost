@@ -1,0 +1,5 @@
+# check fullness of a given OST
+# Usage: checkost naaschpc-OST003b
+checkost(){
+	lfs df | grep $1
+}

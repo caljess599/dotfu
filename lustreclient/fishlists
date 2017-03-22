@@ -1,0 +1,22 @@
+# show which naasc OSTs are over certain percent full
+# Usage: fishlist [80] (when no number is given, defaults to 90)
+fishlist(){
+	# which cvlustre OSTs are at or above 90% full
+	if [ $# -eq 0 ]; then
+	lfs df | grep naaschpc-OST | sort -g -k5 | sed s/\%//g | awk '$5>=90' | sed s_\ /.lustre_%\ /.lustre_g
+	else
+	lfs df | grep naaschpc-OST | sort -g -k5 | sed s/\%//g | awk -v full="$1" '$5>=full' | sed s_\ /.lustre_%\ /.lustre_g
+	fi
+}
+
+# show which cv OSTs are over certain percent full
+# Usage: fishlist [80] (when no number is given, defaults to 90)
+fishlistcv(){
+	# which cvlustre OSTs are at or above 90% full
+	if [ $# -eq 0 ]; then
+	lfs df | grep cvlustre-OST | sort -g -k5 | sed s/\%//g | awk '$5>=90' | sed s_\ /.lustre_%\ /.lustre_g
+	else
+	lfs df | grep cvlustre-OST | sort -g -k5 | sed s/\%//g | awk -v full="$1" '$5>=full' | sed s_\ /.lustre_%\ /.lustre_g
+	fi
+}
+
