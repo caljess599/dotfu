@@ -1,0 +1,24 @@
+#catch and release commands for NAASC
+
+catch(){
+# removes an OST from the naasc.all pool
+# usage pool_remove <fsname>.<poolname> <ostname indexed list>
+	lctl pool_remove naaschpc.all $1 
+}
+
+release(){
+# adds an OST to the naasc.all pool
+# usage pool_add <fsname>.<poolname> <ostname indexed list>
+	lctl pool_add naaschpc.all $1 
+}
+
+# remove a list of OSTs, contained in variable 'fishlist', from the pool 
+catchfish(){
+	for i in $(echo "$fishlist" | awk '{print $1}'|sed 's/naaschpc-\(.*\)_UUID/\1/g'); do catch $i; done
+}
+
+# release a list of OSTs, contained in variable 'fishlist', from the pool 
+releasefish(){
+	for i in $(echo "$fishlist" | awk '{print $1}'|sed 's/naaschpc-\(.*\)_UUID/\1/g'); do release $i; done
+}
+

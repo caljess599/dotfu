@@ -1,0 +1,16 @@
+#ask about pools
+#who's in
+inpool(){
+	lctl pool_list naaschpc.all | grep -vi pool | sort -k13 | sed s/_UUID//g
+}
+
+#who's out
+notinpool(){
+	# take the list of all devices and give me just naasc osts and then remove the first 8 rows which represent inactive ones
+	lctl dl | awk '{print $4}' | grep -v naaschpc-MDT | grep naaschpc-OST00 | sort -k13 | sed s/-osc-MDT0000//g | awk 'NR>8' > /tmp/allhex
+	# take the pool
+	lctl pool_list naaschpc.all | grep -vi pool | sort -k13 | sed s/_UUID//g > /tmp/allpool
+	# both lists have been reduced to just naaschpc-OST#### so they can be compared
+	echo "OSTs not in naasc.all pool:"; diff /tmp/allpool /tmp/allhex | grep \>
+}
+

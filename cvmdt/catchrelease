@@ -1,0 +1,25 @@
+#catch and release for cvlustre mdt (sauron)
+
+catch(){
+# removes an OST from the cvlustre.all pool
+# usage pool_remove <fsname>.<poolname> <ostname indexed list>
+        lctl pool_remove cvlustre.all $1
+}
+
+release(){
+# adds an OST to the cvlustre.all pool
+# usage pool_add <fsname>.<poolname> <ostname indexed list>
+        lctl pool_add cvlustre.all $1
+}
+
+# remove from pool cvlustre.all a list of OSTs, contained in variable 'fishlist'
+catchfish(){
+        for i in $(echo "$fishlist" | awk '{print $1}'|sed 's/cvlustre-\(.*\)_UUID/\1/g'); do catch $i; done
+}
+
+# add back into pool cvlustre.all a list of OSTs, contained in variable 'fishlist'
+releasefish(){
+        for i in $(echo "$fishlist" | awk '{print $1}'|sed 's/cvlustre-\(.*\)_UUID/\1/g'); do release $i; done
+}
+A
+
