@@ -1,0 +1,9 @@
+# given space-separated ticket numbers, makes a screen for each of them
+# usage: tixsc 12345 23456 34567
+tixsc (){
+	for i in $@; do
+		echo making screen for ticket \#${i}
+		screen -dm -S $i bash -c "echo Screen for ticket $i; bash"
+	done
+}
+

@@ -1,4 +1,6 @@
+# kills a numbered screen in the scls
+# usage: byesc 1
 byesc (){
-        screen -S $(screen -ls | grep '[0-9].[0-9]' | awk 'NR=="'$1'"{print $1}') -X quit
+        screen -SX $(scls | grep '[0-9].[0-9]' | awk 'NR=="'$1'"{print $2}') quit
         scls
 }
