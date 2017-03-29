@@ -1,0 +1,12 @@
+# checks for a md5sum file corresponding to a file name in /spool/Delivered
+# the jao_commando.sh script does not depend on this being loaded--it has its own copy
+checkfor () {
+        found=$(ls -la /spool/Delivered | grep $1)
+        if [ $? -eq 0 ]; then
+                deldate=$(echo "$found" | grep md5sum | awk '{printf "%s %s", $6, $7}')
+                deltime=$(echo "$found" | grep md5sum | awk '{print $8}')
+                printf "File $1 was delivered on $deldate at $deltime (UTC)\n"
+        else
+                printf "File $1 not found in deliveries\n"
+	fi
+}
