@@ -1,0 +1,14 @@
+# tests whether a given file is under RCS control
+isit(){
+	# accept a file name
+	givenname=$1
+	# where it is
+	pathtofile=$(dirname $1)
+	# what it's called
+	basename=$(basename $1)
+	if [ -e ${pathtofile}/RCS/${basename},v ]; then
+		echo "YES: this file is under RCS"
+	else
+		echo "NO: this file is not under RCS"
+	fi
+}

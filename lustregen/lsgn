@@ -1,0 +1,2 @@
+# show modules
+alias lsgl='lsmod|grep lnet'
