@@ -6,9 +6,15 @@ isit(){
 	pathtofile=$(dirname $1)
 	# what it's called
 	basename=$(basename $1)
-	if [ -e ${pathtofile}/RCS/${basename},v ]; then
-		echo "YES: this file is under RCS"
+	# preserve check on its existence
+	if [ ! -e $1 ]; then
+		echo "No such file exists"
 	else
-		echo "NO: this file is not under RCS"
+		if
+			[ -e ${pathtofile}/RCS/${basename},v ]; then
+			echo "YES: this file is under RCS"
+		else
+			echo "NO: this file is not under RCS"
+		fi
 	fi
 }
