@@ -1,1 +1,4 @@
-alias scls="screen -ls | nl -bp\("
+#alias scls="screen -ls | nl -bp\("
+scls(){
+	screen -ls | nl -bp\(
+}
