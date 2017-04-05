@@ -3,10 +3,9 @@
 # Usage: megadiffs <grep pattern>
 megadiffs(){
 	grepme="$*"
-	echo "$grepme"
 	for i in $megaraidhosts; do
 		echo $i
-		megadump $i | grep -i "$grepme"
+		megadump $i | grep -i "$grepme" | nl -v 0 
 	done
 }
 

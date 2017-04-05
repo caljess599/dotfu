@@ -1,0 +1,10 @@
+# side-by-side view of up to 3 megadescribes
+# usage: megacomp nangas-oss-8,1 cv-oss-16,0 [nangas08,2]
+# there is nothing stopping more than 3 inputs but it'll start to look funny
+megacomp(){
+	now=$(date +%s)
+	for i in $@; do
+		megadescribe ${i%*,*} ${i#*,*} > /tmp/$i.$now
+	done
+	pr -w 170 -m -t /tmp/*.${now} 	
+} 
