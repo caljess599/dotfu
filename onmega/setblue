@@ -1,0 +1,5 @@
+# toggle activity for locate to on
+# usage: setred $CONT
+setblue() {
+	storcli /c0 set activityforlocate=on
+}

@@ -1,5 +1,5 @@
 # show all info for a controller
-# usage: showme 0
+# usage: showme $CONT
 showme() {
         storcli /c$1/eall/sall show
 }

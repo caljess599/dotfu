@@ -1,5 +1,5 @@
 # show activity for locate for a controller
-# usage: showlight 0
+# usage: showlight $CONT
 showlight() {
         storcli /c$1 show activityforlocate
 }
