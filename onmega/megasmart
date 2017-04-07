@@ -14,7 +14,7 @@ megasmart(){
 	DEVLETS=$(lsscsi | grep AVAGO | awk '{print $6}' | rev | cut -c1)
 	echo "Device letters for controllers: $DEVLETS"
 	# last letter will determine function
-	DEVLAST=(echo $DEVLETS | rev | cut -c1)
+	DEVLAST=$(echo $DEVLETS | rev | cut -c1)
 	echo "DID range is: $START $END"
 	# pick a function based on DEVLAST
 	echo "DEVLAST = $DEVLAST"
