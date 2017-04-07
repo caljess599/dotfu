@@ -1,0 +1,18 @@
+# show errors
+megadisks(){
+	echo $HOSTNAME
+	#get number of controllers
+	CONTS=$(storcli show | grep "Number of Controllers" | rev | cut -c1)
+	echo "Box has $CONTS controllers."
+	#get high and low slot IDs
+	RANGE=$(for ((i=0; i<$CONTS; i++)); do showme $i; done | grep HDD | awk '{print $1}' | awk -F":" '{print $2}' | sort -g | awk 'NR==1 {print} END {print}')
+	#determine min Slot ID
+	START=$(echo $RANGE | awk '{print $1}')
+	echo $START
+	#determine max Slot ID
+	END=$(echo $RANGE | awk '{print $2}')
+	echo $END
+	# run the check
+	# for each controller	
+	for ((i=0; i<$CONTS; i++)); do for ((j=$START; i<=$END; j++)); do echo errors on disk controller $i disk $j; storcli /c${i}/eall/s${j} show all | grep -i "error count" | grep -v "= 0"; done; done | pcregrep -M -e '^errors on.*$(\n|.)[A-Z].*$(\n|.)[A-Z]' -e '^errors on.*$(\n|.)[A-Z]'
+}
