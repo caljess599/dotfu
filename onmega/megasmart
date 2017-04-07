@@ -1,0 +1,17 @@
+# determine DID range and run smartctl check on all disks; grep for status
+# usage: megasmart
+megasmart(){ 
+	#get high and low DIDs
+	range=$(for i in {0..1}; do showme $i; done | grep HDD | awk '{print $2}' | sort -g | awk 'NR==1 {print} END {print}')
+	#determine min DID
+	START=$(echo $range | awk '{print $1}')
+	#determine max DID
+	END=$(echo $range | awk '{print $2}')
+	#run the check
+	echo "range is: $START $END"
+	for ((i=$START; i<=$END; i++)); do 
+		for j in {a..f}; do 
+			smartctl -a -d sat+megaraid,${i} /dev/sd${j} | grep "SMART overall-health self-assessment test result:"
+		done
+	done
+}
