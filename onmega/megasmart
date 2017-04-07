@@ -9,12 +9,53 @@ megasmart(){
 	#determine min DID
 	START=$(echo $RANGE | awk '{print $1}')
 	#determine max DID
-	END=$(echo $RANGE | awk '{print $2}')
-	#run the check
+	END=$(echo $RANGE | awk '{print $2}')	
+	# print device letters
+	DEVLETS=$(lsscsi | grep AVAGO | awk '{print $6}' | rev | cut -c1)
+	echo "Device letters for controllers: $DEVLETS"
+	# last letter will determine function
+	DEVLAST=(echo $DEVLETS | rev | cut -c1)
 	echo "DID range is: $START $END"
-	for ((i=$START; i<=$END; i++)); do 
-		for j in {a..f}; do 
-			smartctl -a -d sat+megaraid,${i} /dev/sd${j} | grep "SMART overall-health self-assessment test result:"
+	# pick a function based on DEVLAST
+	echo "DEVLAST = $DEVLAST"
+	if [ $DEVLAST == b ]; then
+		echo "DEVLAST = b"
+		for ((i=$START; i<=$END; i++)); do 
+			for j in {a..b}; do 
+				smartctl -a -d sat+megaraid,${i} /dev/sd${j} | grep "SMART overall-health self-assessment test result:"
+			done
 		done
-	done
+	elif [ $DEVLAST == c ]; then
+		echo "DEVLAST = c"
+		for ((i=$START; i<=$END; i++)); do 
+			for j in {a..c}; do 
+				smartctl -a -d sat+megaraid,${i} /dev/sd${j} | grep "SMART overall-health self-assessment test result:"
+			done
+		done
+	elif [ $DEVLAST == d ]; then
+		echo "DEVLAST = d"
+		for ((i=$START; i<=$END; i++)); do 
+			for j in {a..d}; do 
+				smartctl -a -d sat+megaraid,${i} /dev/sd${j} | grep "SMART overall-health self-assessment test result:"
+			done
+		done
+	
+	elif [ $DEVLAST == e ]; then
+		echo "DEVLAST = e"
+		for ((i=$START; i<=$END; i++)); do 
+			for j in {a..e}; do 
+				smartctl -a -d sat+megaraid,${i} /dev/sd${j} | grep "SMART overall-health self-assessment test result:"
+			done
+		done
+	elif [ $DEVLAST == f ]; then
+		echo "DEVLAST = f"
+		for ((i=$START; i<=$END; i++)); do 
+			for j in {a..f}; do 
+				smartctl -a -d sat+megaraid,${i} /dev/sd${j} | grep "SMART overall-health self-assessment test result:"
+			done
+		done
+	else 
+		echo "Warning: function cannot produce complete output"
+		exit
+	fi
 }
