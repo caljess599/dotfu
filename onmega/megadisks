@@ -14,5 +14,5 @@ megadisks(){
 	#echo $END
 	# run the check
 	# for each controller	
-	for ((i=0; i<$CONTS; i++)); do for ((j=$START; i<=$END; j++)); do echo errors on disk controller $i disk $j; storcli /c${i}/eall/s${j} show all | grep -i "error count" | grep -v "= 0"; done; done | pcregrep -M -e '^errors on.*$(\n|.)[A-Z].*$(\n|.)[A-Z]' -e '^errors on.*$(\n|.)[A-Z]'
+	for ((i=0; i<$CONTS; i++)); do for ((j=$START; j<=$END; j++)); do echo errors on disk controller $i disk $j; storcli /c${i}/eall/s${j} show all | grep -i "error count" | grep -v "= 0"; done; done | pcregrep -M -e '^errors on.*$(\n|.)[A-Z].*$(\n|.)[A-Z]' -e '^errors on.*$(\n|.)[A-Z]'
 }
