@@ -1,0 +1,29 @@
+# blinkme - identify a drive
+# usage: blinkme $CONT $PORT [$SEC]
+
+blink_message(){
+	echo "blinking CONT $CONT PORT $PORT..."
+	sleep 1	
+}
+
+CONT=$1
+PORT=$2
+
+if [ $# -eq 3 ]; then
+   SEC=$3
+else
+   SEC=30
+fi
+
+echo storcli /c$CONT/s$PORT start locate
+storcli /c$CONT/s$PORT start locate
+
+COUNTER=$SEC
+# blink_message that many times
+while [ $COUNTER -gt 0 ]; do
+	blink_message
+	let COUNTER-=1
+done
+
+echo storcli /c$CONT/s$PORT stop locate
+storcli /c$CONT/s$PORT stop locate
