@@ -12,7 +12,7 @@ blinkme(){
 	fi
 
 	echo storcli /c$CONT/s$PORT start locate
-#	storcli /c$CONT/s$PORT start locate
+	storcli /c$CONT/s$PORT start locate
 
 	COUNTER=$SEC
 	# blink_message that many times
@@ -23,5 +23,5 @@ blinkme(){
 	done
 
 	echo storcli /c$CONT/s$PORT stop locate
-#	storcli /c$CONT/s$PORT stop locate
+	storcli /c$CONT/s$PORT stop locate
 }
