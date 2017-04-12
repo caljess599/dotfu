@@ -18,22 +18,22 @@ bracketme(){
 	MIN=$(echo "$RANGE" | head -1)
 	# general case
 	if [[ $PORT -gt $MIN && $PORT -lt $MAX ]]; then
-		LOWER=(( $PORT++ ))
-		UPPER=(( $PORT-- ))
-		echo "CONT $CONT PORT $PORT will be bracketed."
+                LOWER=$((PORT+1))
+                UPPER=$((PORT-1))
+                echo "CONT $CONT PORT $PORT will be bracketed."
 	# if PORT is min, you are going to use min+1 and min+2
 	elif [ $PORT -eq $MIN ]; then
-		LOWER=(( $PORT++ ))
-		UPPER=(( $LOWER++ ))
-		echo "CONT $CONT PORT $PORT is the lowest-number port on this controller."
-		echo "Therefore, the two drives AFTER your drive will be blinked."
+                LOWER=$((PORT+1))
+                UPPER=$((LOWER+1))
+                echo "CONT $CONT PORT $PORT is the lowest-number port on this controller."
+                echo "Therefore, the two drives AFTER your drive will be blinked."	
 	# if PORT is max, you are going to use max-1 and max-2
 	elif [ $PORT -eq $MAX ]; then
-		UPPER=(( $PORT-- ))
-		LOWER=(( $UPPER-- ))
-		echo "CONT $CONT PORT $PORT is the highest-number port on this controller."
-		echo "Therefore, the two drives BEFORE your drive will be blinked."
-	fi
+                UPPER=$((PORT-1))
+                LOWER=$((UPPER-1))
+                echo "CONT $CONT PORT $PORT is the highest-number port on this controller."
+                echo "Therefore, the two drives BEFORE your drive will be blinked."
+        fi	
 
 	# now just call the function
 	blinkme $CONT $LOWER $SEC &
