@@ -1,0 +1,41 @@
+# bracketme - identify a drive by identifying 2 around/beside it
+# usage: bracketme $CONT $PORT [$SEC]
+
+bracketme(){
+        CONT=$1
+        PORT=$2
+
+	# use, if specified, second count from user
+        if [ $# -eq 3 ]; then
+                SEC=$3
+        else
+                SEC=30
+        fi
+
+	# determine the contiguous drive numbers (assumes numerical order is layout order)
+	RANGE=$(storcli /c$CONT show | grep HDD | awk '{print $1}' | awk -F":" '{print $2}')
+	MAX=$(echo "$RANGE" | tail -1)
+	MIN=$(echo "$RANGE" | head -1)
+	# general case
+	if [[ $PORT -gt $MIN && $PORT -lt $MAX ]]; then
+		LOWER=(( $PORT++ ))
+		UPPER=(( $PORT-- ))
+		echo "CONT $CONT PORT $PORT will be bracketed."
+	# if PORT is min, you are going to use min+1 and min+2
+	elif [ $PORT -eq $MIN ]; then
+		LOWER=(( $PORT++ ))
+		UPPER=(( $LOWER++ ))
+		echo "CONT $CONT PORT $PORT is the lowest-number port on this controller."
+		echo "Therefore, the two drives AFTER your drive will be blinked."
+	# if PORT is max, you are going to use max-1 and max-2
+	elif [ $PORT -eq $MAX ]; then
+		UPPER=(( $PORT-- ))
+		LOWER=(( $UPPER-- ))
+		echo "CONT $CONT PORT $PORT is the highest-number port on this controller."
+		echo "Therefore, the two drives BEFORE your drive will be blinked."
+	fi
+
+	# now just call the function
+	blinkme $CONT $LOWER $SEC &
+	blinkme $CONT $UPPER $SEC
+}

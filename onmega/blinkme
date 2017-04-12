@@ -2,26 +2,33 @@
 # usage: blinkme $CONT $PORT [$SEC]
 
 blinkme(){
-	CONT=$1
-	PORT=$2
+        CONT=$1
+        PORT=$2
 
-	if [ $# -eq 3 ]; then
-   		SEC=$3
-	else
-   		SEC=30
-	fi
+	# use, if specified, second count from user
+        if [ $# -eq 3 ]; then
+                SEC=$3
+        else
+                SEC=30
+        fi
 
-	echo storcli /c$CONT/s$PORT start locate
-	storcli /c$CONT/s$PORT start locate
+	# attempt to start the locate; will fail for a drive not found
+	storcli /c$CONT/eall/s$PORT start locate
 
-	COUNTER=$SEC
+	# only start reporting blinking if it succeeds
+	if [ $? -ne 0 ]; then
+                echo "Sorry, that is not a valid drive."
+        else
+                echo storcli /c$CONT/s$PORT start locate
+                COUNTER=$SEC
 	# blink_message that many times
 	while [ $COUNTER -gt 0 ]; do
-		echo "blinking CONT $CONT PORT $PORT..."
-		sleep 1	
-		let COUNTER-=1
-	done
-
-	echo storcli /c$CONT/s$PORT stop locate
-	storcli /c$CONT/s$PORT stop locate
+                        echo "blinking CONT $CONT PORT $PORT..."
+                        sleep 1
+                        let COUNTER-=1
+                done
+	#now we're done
+                echo storcli /c$CONT/s$PORT stop locate
+                storcli /c$CONT/eall/s$PORT stop locate
+        fi
 }
