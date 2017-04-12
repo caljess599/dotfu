@@ -16,26 +16,33 @@ bracketme(){
 	RANGE=$(storcli /c$CONT show | grep HDD | awk '{print $1}' | awk -F":" '{print $2}')
 	MAX=$(echo "$RANGE" | tail -1)
 	MIN=$(echo "$RANGE" | head -1)
+	
+	#only proceed if $PORT is in $RANGE
+	if [[ $PORT -le $MAX && $PORT -ge $MIN ]]; then
+	
 	# general case
-	if [[ $PORT -gt $MIN && $PORT -lt $MAX ]]; then
-                LOWER=$((PORT+1))
-                UPPER=$((PORT-1))
-                echo "CONT $CONT PORT $PORT will be bracketed."
+		if [[ $PORT -gt $MIN && $PORT -lt $MAX ]]; then
+                	LOWER=$((PORT+1))
+                	UPPER=$((PORT-1))
+                	echo "Port $PORT on controller $CONT will be bracketed."
 	# if PORT is min, you are going to use min+1 and min+2
-	elif [ $PORT -eq $MIN ]; then
-                LOWER=$((PORT+1))
-                UPPER=$((LOWER+1))
-                echo "CONT $CONT PORT $PORT is the lowest-number port on this controller."
-                echo "Therefore, the two drives AFTER your drive will be blinked."	
+		elif [ $PORT -eq $MIN ]; then
+                	LOWER=$((PORT+1))
+                	UPPER=$((LOWER+1))
+			echo "Port $PORT is the lowest-number port on controller $CONT."
+        		echo "Therefore, ports $LOWER and $UPPER will be blinked."
 	# if PORT is max, you are going to use max-1 and max-2
-	elif [ $PORT -eq $MAX ]; then
-                UPPER=$((PORT-1))
-                LOWER=$((UPPER-1))
-                echo "CONT $CONT PORT $PORT is the highest-number port on this controller."
-                echo "Therefore, the two drives BEFORE your drive will be blinked."
-        fi	
+		elif [ $PORT -eq $MAX ]; then
+                	UPPER=$((PORT-1))
+                	LOWER=$((UPPER-1))
+			echo "Port $PORT is the highest-number port on controller $CONT."
+			echo "Therefore, ports $LOWER and $UPPER will be blinked."
+		fi	
 
 	# now just call the function
-	blinkme $CONT $LOWER $SEC &
-	blinkme $CONT $UPPER $SEC
+		blinkme $CONT $LOWER $SEC &
+		blinkme $CONT $UPPER $SEC
+	else
+                echo "Specified drive is out of range for this controller."
+        fi
 }
