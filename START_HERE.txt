@@ -4,39 +4,47 @@ The 'af' function is used to source categories of functional aliases.
 
 This function needs to know the location of the dotfu repo.
 
-On personal boxes, this should be correct:
-
 af(){
-	repo=/users/$USER/dotfu
-	dirs=$*
-	for i in $dirs; do
-		echo sourcing files in ${i} ...
-		for j in $repo/$i/*; do
-			echo sourcing $j
-			source $j
-		done
-	done
+   repo=/$USER/dotfu
+   if [ "$1" = "-v" ]; then
+      dirs="${@:2}"
+      for i in $dirs; do
+         echo sourcing files in ${i} ...
+         for j in $repo/$i/*; do
+            echo sourcing $j
+            source $j
+         done
+      done   
+   else    #non-verbose   
+      dirs=$*
+      for i in $dirs; do
+         for j in $repo/$i/*; do
+            source $j
+         done
+      done
+   fi
 }
 
-For boxes where we work as root, this should be correct:
-
-af(){
-        repo=/$USER/dotfu
-        dirs=$*
-        for i in $dirs; do
-                echo sourcing files in ${i} ...
-                for j in $repo/$i/*; do
-                        echo sourcing $j
-                        source $j
-                done
-        done
-}
-
-The relevant copy of this function should be added to the $USER's .bashrc (or .profile.personal) file.
+This function should be added to the $USER's .bashrc (or .profile.personal) file.
 
 Upon login, you use the af function to source the commands you may need.
 
-You can also add a call of the af function itself to the .bashrc (or .profile.personal) file if you want to make sure that certain categories are always available upon login.
+To 'automate' loading of functions, you can include in your .bashrc (or equivalent):
 
+1) The afrec function, that echoes your prefered choices.
+
+afrec(){
+	echo af -v math rsc screen
+} 
+
+This is the safe option; upon login, use   
+		eval $(afrec)
+to load up those specified preferences
+
+2) Call the function directly 
+
+af match rsc screen
+
+If untested functions are included, you may have trouble...
 
 
