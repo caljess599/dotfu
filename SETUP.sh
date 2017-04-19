@@ -12,6 +12,7 @@
 # ----------------------------------------------------------------------------
 #  19 Apr 2017   |  jotey    | first deployment, afrec generic only, no rcs 
 # ----------------------------------------------------------------------------
+#  19 Apr 2017   |  jotey    | added RCS functionality
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
@@ -47,6 +48,7 @@ isrcs(){
 	# preserve check on its existence
 	if [ ! -e $1 ]; then
 		echo "No such file exists"
+		return 2
 	else
 		if
 			[ -e ${pathtofile}/RCS/${basename},v ]; then
@@ -110,27 +112,32 @@ if [ ${PDIR##*\/} != dotfu ]; then
 fi
 
 BDIR=${PDIR%*\/dotfu}
-echo ... using $BDIR for $BASHRC path...
+echo ... using $BDIR for $BASHRC path ...
 
 # see if function exists, uncommented
-grep -q "^af(){" $BDIR/${BASHRC} 
+EXIST=$(grep -q "^af(){" $BDIR/${BASHRC}; echo $?) 
 
 # may not need to install
-if [ $? -eq 0 ]; then
-	echo "af function already installed, quitting"
+if [ $EXIST -eq 2 ]; then
+	echo "$BDIR/$BASHRC does not exist, quitting"
+elif [ $EXIST -eq 0 ]; then
+	echo "The af function already present in $BDIR/$BASHRC, quitting"
 	exit
 else
-	echo ... testing to see if $BDIR/$BASHRC is under RCS control...
-	isrcs $BDIR/$BASHRC
-	if [ $? -eq 1 ]; then
-		echo ... unlocking $BDIR/$BASHRC...
-	       # unlock the file
+	echo ... testing to see if $BDIR/$BASHRC is under RCS control ...
+	CONTROL=$(isrcs $BDIR/$BASHRC; echo $?)
+	if [ $CONTROL -eq 2 ]; then
+		exit
+	elif [ $CONTROL -eq 1 ]; then
+		echo ... yes, file is under RCS ...
+		echo ... unlocking $BDIR/$BASHRC ...
+	        co -l $BDIR/$BASHRC
 	       	echo ... installing af function to $BDIR/$BASHRC...
 		addaf
-		echo ... locking file...
-		# lock the file w/comment
+		echo ... re-locking file ...
+		ci -u -m'inserted af and afrec functions for dotfu repo' $BDIR/$BASHRC 
 	else
-		echo ... this file is not under RCS, continuing...
+		echo ... this file is not under RCS, continuing ...
 		echo ... installing af function to $BDIR/$BASHRC ...
 		addaf
 	
