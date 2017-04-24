@@ -2,6 +2,7 @@
 # by greping for a specific string in the megadump output
 # Usage: megadiffs <grep pattern>
 megadiffs(){
+	megaraidhosts="lard-oss-1 lard-oss-2 nangas08 nangas09 nangas10 naasc-oss-8 naasc-oss-9 cv-oss-16"
 	grepme="$*"
 	for i in $megaraidhosts; do
 		echo $i

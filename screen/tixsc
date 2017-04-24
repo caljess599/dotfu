@@ -5,5 +5,7 @@ tixsc (){
 		echo making screen for ticket \#${i}
 		screen -dm -S $i bash -c "echo Screen for ticket $i; bash"
 	done
+	sleep 1
+	scls
 }
 
