@@ -1,0 +1,6 @@
+# update the dotfu repo
+# usage: udotfu
+udotfu (){
+	cd ~/dotfu && git pull && cd 
+}
+

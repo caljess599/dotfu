@@ -14,6 +14,7 @@
 # ----------------------------------------------------------------------------
 #  19 Apr 2017   |  jotey    | added RCS functionality
 # ----------------------------------------------------------------------------
+#  26 Apr 2017   |  jotey    | modified repo path to always work
 # ----------------------------------------------------------------------------
 
 # # # USAGE FROM TEMPLATE # # #
@@ -66,7 +67,7 @@ addaf(){
 # usage: af [-v] <dotfu folder> [...]
 # -v flag produces verbose output
 af(){
-	repo=/$USER/dotfu
+	repo=~/dotfu
 	if [ "$1" = "-v" ]; then
 		dirs="${@:2}"
 		for i in $dirs; do
@@ -89,7 +90,7 @@ af(){
 # generic afrec options, with verbose option
 # use eval $(afrec) to load
 afrec(){
-	echo af -v math megaraid screen rcs
+	echo af -v admin math megaraid screen rcs
 }
 EOF
 }
@@ -142,7 +143,7 @@ else
 		addaf
 	
 	fi
-	echo ... IF THIS IS A PERSONAL BOX, you will need to adjust the repo path ...
+	echo ... Repo configured with path $repo ...
 	echo ... afrec installed with default options: math megaraid screen rcs ...
 	echo ... feel free to edit based on the needs of this box ...
 fi
