@@ -1,4 +1,11 @@
 # activity reports for cv and naaasc lustres
-alias rbh-act-cv='rbh-report -a -f /etc/robinhood.d/cvlustre.conf'
-alias rbh-act-naasc='rbh-report -a -f /etc/robinhood.d/naaschpc.conf'
+# converted from aliases
+#alias rbh-act-cv='rbh-report -a -f /etc/robinhood.d/cvlustre.conf'
+#alias rbh-act-naasc='rbh-report -a -f /etc/robinhood.d/naaschpc.conf'
+rbh-act-cv(){
+	rbh-report -a -f /etc/robinhood.d/cvlustre.conf
+}
 
+rbh-act-naasc(){
+	rbh-report -a -f /etc/robinhood.d/naaschpc.conf
+}
