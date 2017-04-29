@@ -1,0 +1,9 @@
+# pstat - prints states for ps aux
+pstat(){
+	echo "PROCESS STATE CODES"
+       	echo "D   uninterruptible sleep (usually I/O)"
+       	echo "R   runnable (on run queue)"
+       	echo "S   sleeping"
+       	echo "T   traced or stopped"
+       	echo "Z   a defunct ("zombie") process"
+}
