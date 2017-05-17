@@ -9,3 +9,7 @@ rbh-act-cv(){
 rbh-act-naasc(){
 	rbh-report -a -f /etc/robinhood.d/naaschpc.conf
 }
+
+rbh-act-lard(){
+	rbh-report -a -f /etc/robinhood.d/lard.conf
+}
