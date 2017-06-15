@@ -1,0 +1,4 @@
+# ghspareme - given controller, enclosure, and drive numbers, assign disk at that location to global hot spare
+ghspareme (){
+        storcli /c$1/e$2/s$3 add hotsparedrive
+}
