@@ -1,0 +1,4 @@
+# megalatest - shows specified number of events on a give controller
+megalatest(){
+	storcli /c$1 show events type=latest=$2
+}
