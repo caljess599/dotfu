@@ -1,0 +1,5 @@
+# show all rebuilds for a controller
+# usage: showrb $CONT
+showrb() {
+        storcli /c$1/eall/sall show rebuild | grep "In progress"
+}
