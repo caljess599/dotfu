@@ -1,0 +1,16 @@
+# extendres - extends a reservation given username, cvpost node, and number of days
+
+extendres(){
+        #usage extendres usrname nodenumber days
+        usrname=$1
+        nodenum=$2
+        days=$3
+	# look up jobid
+        jobid=$(whonode -u $usrname | grep $nodenum | cut -f 2 | cut -d'.' -f 1)
+	if [[ "$jobid" =~ [1-9][0-9]{3} ]]; then
+        	ssh root@cvpost-serv-1 /opt/local/bin/nodeextendjob $jobid.cvpost-serv-1.cv.nrao.edu --days $days
+	else #jobid is not valid
+		echo "Sorry, no jobid discovered. Exiting."
+	fi
+}
+
