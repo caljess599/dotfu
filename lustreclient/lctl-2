@@ -1,0 +1,26 @@
+# file: lctl-2
+# lctl parameter-completion
+
+LIST_PARAM=$(lctl list_param -R | grep -v '[0-9]$' | sed s/OST[0-f][0-f][0-f][0-f]/OST*/g)
+CONTROL_PARAM="--net network net list_nids which_nid replace_nids interface_list peer_list conn_list active_tx route_list show_route ping help lustre_build_version device
+device_list dl activate deactivate abort_recovery set_timeout conf_param local_param get_param set_param list_param debug_daemon debug_kernel dk debug_file df clear mark filter show debug_list modules blockdev_attach blockdev_detach blockdev_info pool_new pool_add pool_remove pool_destroy pool_list changelog_register changelog_deregister lfsck_start lfsck_stop set_route"
+
+_lctl-2()   #  By convention, the function name starts with an underscore
+{               
+  local cur prev   # these are pointers
+
+  COMPREPLY=()   # Array variable storing the possible completions.
+  cur=${COMP_WORDS[COMP_CWORD]}
+  prev=${COMP_WORDS[COMP_CWORD-1]}  
+
+  if [ $COMP_CWORD -eq 1 ]; then
+    COMPREPLY=( $(compgen -W "`echo $CONTROL_PARAM`" -- $cur) )
+  elif [ $COMP_CWORD -eq 2 ]; then
+    COMPREPLY=( $(compgen -W "$LIST_PARAM" -- $cur) )
+  fi
+
+  return 0
+} &&
+
+complete -F _lctl-2 lctl
+#        ^^ ^^^^^^^  Invokes the function _lctl-2.
