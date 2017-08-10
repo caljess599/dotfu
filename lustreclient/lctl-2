@@ -16,7 +16,13 @@ _lctl-2()   #  By convention, the function name starts with an underscore
   if [ $COMP_CWORD -eq 1 ]; then
     COMPREPLY=( $(compgen -W "`echo $CONTROL_PARAM`" -- $cur) )
   elif [ $COMP_CWORD -eq 2 ]; then
-    COMPREPLY=( $(compgen -W "$LIST_PARAM" -- $cur) )
+    case "$prev" in
+      "get_param|set_param")
+        COMPREPLY=( $(compgen -W "$LIST_PARAM" -- $cur) )
+        ;;
+      *)
+        ;;
+    esac
   fi
 
   return 0
