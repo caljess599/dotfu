@@ -1,0 +1,5 @@
+# show all copybacks for a controller
+# usage: showcb $CONT
+showcb() {
+        storcli /c$1/eall/sall show copyback | grep "In progress"
+}

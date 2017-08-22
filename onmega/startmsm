@@ -1,0 +1,3 @@
+startmsm(){
+    /usr/local/MegaRAID\ Storage\ Manager/startupui.sh
+}
