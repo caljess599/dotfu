@@ -1,0 +1,54 @@
+# howlong - takes two dates and provides distance between them in days, hours, minutes
+
+howlong(){
+	date1=$1  # dates in seconds since epoch,
+	date2=$2  # i.e., (date -u +'%s')
+
+# determine difference of dates in seconds
+	secdiff=$(( ( $date2 - $date1 ) ))
+	days=$(echo $(( ( $secdiff/86400) )))
+	daysmod=$(echo $(( ( $secdiff%86400) )))
+	hours=$(echo $(( ( $daysmod/3600) )))
+	hoursmod=$(echo $(( ( $daysmod%3600) )))
+	mins=$(echo $(( ( $hoursmod/60) )))
+	secs=$(echo $(( ($hoursmod%60) )))
+
+#format for the word 'days'
+	if [ $days -eq 0 ]; then
+		daystring=
+	elif [ $days -eq 1 ]; then
+		daystring=$(echo $days day)
+	else 
+		daystring=$(echo $days days)
+	fi
+
+#format for the word 'hours'
+	if [ $hours -eq 0 ]; then
+		hourstring=
+	elif [ $hours -eq 1 ]; then
+		hourstring=$(echo $hours hour)
+	else 
+		hourstring=$(echo $hours hours)
+	fi
+
+#format for the word 'minutes'
+	if [ $mins -eq 0 ]; then
+		minstring=
+	elif [ $mins -eq 1 ]; then
+		minstring=$(echo $mins minute)
+	else 
+		minstring=$(echo $mins minutes)
+	fi
+
+#format for the word 'seconds'
+	if [ $secs -eq 0 ]; then
+		secstring=
+	elif [ $secs -eq 1 ]; then
+		secstring=$(echo $secs second)
+	else 
+		secstring=$(echo $secs seconds)
+	fi
+	
+	echo $daystring $hourstring $minstring $secstring
+
+}
